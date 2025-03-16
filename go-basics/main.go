@@ -7,4 +7,6 @@ func main() {
 	FuncsAdv()
 	Conditions()
 	Cycles()
+	Pointers()
+	Structs()
 }
