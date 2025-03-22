@@ -1,14 +1,26 @@
 package main
 
+import (
+	"go-basics/basics"
+	"go-basics/funcs"
+	"go-basics/pointers"
+	"go-basics/statements"
+	"go-basics/structs"
+)
+
 func main() {
-	HelloWorld()
-	Vars()
-	Funcs()
-	FuncsAdv()
-	Conditions()
-	Cycles()
-	Pointers()
-	Structs()
-	Methods()
-	Interfaces()
+	basics.HelloWorld()
+	basics.Vars()
+
+	funcs.Funcs()
+	funcs.FuncsAdv()
+
+	statements.Conditions()
+	statements.Loops()
+
+	pointers.Pointers()
+
+	structs.Structs()
+	structs.Methods()
+	structs.Interfaces()
 }
