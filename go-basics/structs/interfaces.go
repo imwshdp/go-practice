@@ -2,51 +2,51 @@ package structs
 
 import "fmt"
 
-type Runner interface {
+type runner interface {
 	Run() string
 }
 
-type Swimmer interface {
+type swimmer interface {
 	Swim() string
 }
 
-type Flyer interface {
+type flyer interface {
 	Fly() string
 }
 
-type Ducker interface {
-	Runner
-	Swimmer
-	Flyer
+type ducker interface {
+	runner
+	swimmer
+	flyer
 }
 
-type Human struct {
+type human struct {
 	Name string
 }
 
-func (h Human) Run() string {
+func (h human) Run() string {
 	return fmt.Sprintf("Human %s is running", h.Name)
 }
-func (h Human) writeCode() string {
+func (h human) writeCode() string {
 	return fmt.Sprintf("Human %s is coding", h.Name)
 }
 
-type Duck struct {
+type duck struct {
 	Name, Surname string
 }
 
-func (d Duck) Run() string {
+func (d duck) Run() string {
 	return fmt.Sprintf("Duck %s is running", d.Name)
 }
-func (d Duck) Swim() string {
+func (d duck) Swim() string {
 	return fmt.Sprintf("Duck %s is swimming", d.Name)
 }
 
-func polymorphismRun(runner Runner) {
+func polymorphismRun(runner runner) {
 	fmt.Println(runner.Run())
 }
 
-func typeAssertion(runner Runner) {
+func typeAssertion(runner runner) {
 	fmt.Printf("runner (%T): %#v\n", runner, runner)
 	// if human, ok := runner.(*Human); ok {
 	// 	fmt.Printf("human assertion (%T): %#v\n", human, human)
@@ -61,9 +61,9 @@ func typeAssertion(runner Runner) {
 	// OR
 
 	switch v := runner.(type) {
-	case *Human:
+	case *human:
 		fmt.Println(v.writeCode())
-	case *Duck:
+	case *duck:
 		fmt.Println(v.Swim())
 	default:
 		fmt.Printf("v (%T): %#v\n", v, v)
@@ -73,14 +73,14 @@ func typeAssertion(runner Runner) {
 func typeAssertionAndPolymorphism() {
 	fmt.Println("\n---Polymorphism---")
 
-	var runner Runner
+	var runner runner
 	fmt.Printf("runner (%T): %#v\n", runner, runner)
 
-	john := &Human{Name: "John"}
+	john := &human{Name: "John"}
 	runner = john
 	polymorphismRun(john)
 
-	donald := &Duck{Name: "Donald", Surname: "Duck"}
+	donald := &duck{Name: "Donald", Surname: "Duck"}
 	runner = donald
 	polymorphismRun(donald)
 
@@ -91,14 +91,14 @@ func typeAssertionAndPolymorphism() {
 }
 
 func Interfaces() {
-	var runner Runner
+	var runner runner
 	fmt.Printf("runner (%T): %#v\n", runner, runner)
 
 	if runner == nil {
 		fmt.Println("runner is nil")
 	}
 
-	var unnamedRunner *Human
+	var unnamedRunner *human
 	fmt.Printf("unnamedRunner (%T): %#v\n", unnamedRunner, unnamedRunner)
 
 	runner = unnamedRunner
@@ -107,7 +107,7 @@ func Interfaces() {
 		fmt.Println("runner is nil")
 	}
 
-	namedRunner := &Human{Name: "Runner"}
+	namedRunner := &human{Name: "Runner"}
 	fmt.Printf("namedRunner (%T): %#v\n", namedRunner, namedRunner)
 
 	runner = namedRunner

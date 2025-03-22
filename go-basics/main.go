@@ -23,4 +23,5 @@ func main() {
 	structs.Structs()
 	structs.Methods()
 	structs.Interfaces()
+	structs.Embedding()
 }
