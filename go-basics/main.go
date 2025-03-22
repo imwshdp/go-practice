@@ -2,6 +2,7 @@ package main
 
 import (
 	"go-basics/basics"
+	"go-basics/collections"
 	"go-basics/funcs"
 	"go-basics/pointers"
 	"go-basics/statements"
@@ -24,4 +25,7 @@ func main() {
 	structs.Methods()
 	structs.Interfaces()
 	structs.Embedding()
+
+	collections.Arrays()
+	collections.Slices()
 }
