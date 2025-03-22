@@ -9,4 +9,6 @@ func main() {
 	Cycles()
 	Pointers()
 	Structs()
+	Methods()
+	Interfaces()
 }
