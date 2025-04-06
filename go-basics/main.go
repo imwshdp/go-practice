@@ -28,4 +28,5 @@ func main() {
 
 	collections.Arrays()
 	collections.Slices()
+	collections.Maps()
 }
