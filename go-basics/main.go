@@ -3,6 +3,7 @@ package main
 import (
 	"go-basics/basics"
 	"go-basics/collections"
+	"go-basics/concurrency"
 	"go-basics/funcs"
 	"go-basics/pointers"
 	"go-basics/statements"
@@ -29,4 +30,10 @@ func main() {
 	collections.Arrays()
 	collections.Slices()
 	collections.Maps()
+
+	concurrency.Goroutines()
+	concurrency.Defer()
+	concurrency.Panic()
+	concurrency.Sync()
+	concurrency.Channels()
 }
