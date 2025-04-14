@@ -36,4 +36,6 @@ func main() {
 	concurrency.Panic()
 	concurrency.Sync()
 	concurrency.Channels()
+	concurrency.Select()
+	concurrency.Context()
 }
