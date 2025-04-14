@@ -38,4 +38,5 @@ func main() {
 	concurrency.Channels()
 	concurrency.Select()
 	concurrency.Context()
+	concurrency.ErrGroup()
 }
