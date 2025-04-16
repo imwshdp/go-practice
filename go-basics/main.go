@@ -39,4 +39,5 @@ func main() {
 	concurrency.Select()
 	concurrency.Context()
 	concurrency.ErrGroup()
+	concurrency.Atomic()
 }
