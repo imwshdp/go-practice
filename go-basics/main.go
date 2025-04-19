@@ -6,6 +6,7 @@ import (
 	"go-basics/concurrency"
 	"go-basics/funcs"
 	"go-basics/generics"
+	"go-basics/modules"
 	"go-basics/pointers"
 	"go-basics/statements"
 	"go-basics/structs"
@@ -43,4 +44,6 @@ func main() {
 	concurrency.Atomic()
 
 	generics.Generics()
+
+	modules.Modules()
 }
