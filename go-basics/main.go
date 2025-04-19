@@ -4,6 +4,7 @@ import (
 	"go-basics/basics"
 	"go-basics/collections"
 	"go-basics/concurrency"
+	"go-basics/files"
 	"go-basics/funcs"
 	"go-basics/generics"
 	"go-basics/modules"
@@ -46,4 +47,7 @@ func main() {
 	generics.Generics()
 
 	modules.Modules()
+
+	files.Files()
+	files.IoChannels()
 }
