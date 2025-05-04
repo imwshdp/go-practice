@@ -1,6 +1,10 @@
 # docker build -t golang_hw1_tree .
 # docker run -it --rm golang_hw1_tree
+
 FROM golang:1.24.2
+
 COPY . .
+
 RUN go test -v > test.log
+
 CMD ["cat", "test.log"]
