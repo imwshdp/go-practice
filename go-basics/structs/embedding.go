@@ -11,11 +11,6 @@ func (h humanPerson) printName() {
 	fmt.Println(h.Name)
 }
 
-type workExperience struct {
-	Name string
-	Age  int
-}
-
 type woodBuilder struct {
 	humanPerson
 	Name string
@@ -23,6 +18,11 @@ type woodBuilder struct {
 
 func (wb woodBuilder) build() {
 	fmt.Println("Building from woods")
+}
+
+type workExperience struct {
+	Name string
+	Age  int
 }
 
 type woodBuilderWithWE struct {

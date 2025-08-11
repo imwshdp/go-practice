@@ -48,6 +48,7 @@ func polymorphismRun(runner runner) {
 
 func typeAssertion(runner runner) {
 	fmt.Printf("runner (%T): %#v\n", runner, runner)
+
 	// if human, ok := runner.(*Human); ok {
 	// 	fmt.Printf("human assertion (%T): %#v\n", human, human)
 	// 	fmt.Println(human.writeCode())
@@ -99,7 +100,7 @@ func Interfaces() {
 	}
 
 	var unnamedRunner *human
-	fmt.Printf("unnamedRunner (%T): %#v\n", unnamedRunner, unnamedRunner)
+	fmt.Printf("\nunnamedRunner (%T): %#v\n", unnamedRunner, unnamedRunner)
 
 	runner = unnamedRunner
 	fmt.Printf("runner (%T): %#v\n", runner, runner)
@@ -108,7 +109,7 @@ func Interfaces() {
 	}
 
 	namedRunner := &human{Name: "Runner"}
-	fmt.Printf("namedRunner (%T): %#v\n", namedRunner, namedRunner)
+	fmt.Printf("\nnamedRunner (%T): %#v\n", namedRunner, namedRunner)
 
 	runner = namedRunner
 	fmt.Printf("runner (%T): %#v\n", runner, runner)
@@ -116,10 +117,10 @@ func Interfaces() {
 		fmt.Println("runner is nil")
 	}
 
-	namedRunner.Run()
+	fmt.Println(namedRunner.Run())
 
 	var emptyInterface interface{} = unnamedRunner
-	fmt.Printf("emptyInterface (%T): %#v\n", emptyInterface, emptyInterface)
+	fmt.Printf("\nemptyInterface (%T): %#v\n", emptyInterface, emptyInterface)
 
 	emptyInterface = runner
 	fmt.Printf("emptyInterface (%T): %#v\n", emptyInterface, emptyInterface)
