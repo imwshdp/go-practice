@@ -1,0 +1,13 @@
+BenchmarkSlow-16               3         414395133 ns/op        20396600 B/op     182847 allocs/op
+
+BASE FAST SOLUTION:
+BenchmarkFast-16              10         119539670 ns/op         3160588 B/op      48639 allocs/op
+
+WITH STRING BUILDER:
+BenchmarkFast-16              10         108838780 ns/op         2943139 B/op      48555 allocs/op
+
+WITH USER STRUCT:
+BenchmarkFast-16             312           3706754 ns/op         1052200 B/op      16615 allocs/op
+
+WITHOUT ALL REGEXP
+BenchmarkFast-16             334           3543161 ns/op         1037395 B/op      16319 allocs/op
