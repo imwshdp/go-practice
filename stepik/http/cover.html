@@ -76,7 +76,7 @@
 import (
         "encoding/json"
         "fmt"
-        "io/ioutil"
+        "io"
         "net"
         "net/http"
         "net/url"
@@ -179,7 +179,7 @@ func (srv *SearchClient) FindUsers(req SearchRequest) (*SearchResponse, error) <
                 <span class="cov8" title="1">return nil, fmt.Errorf("unknown error %s", err)</span>
         }
         <span class="cov8" title="1">defer resp.Body.Close()
-        body, err := ioutil.ReadAll(resp.Body)
+        body, err := io.ReadAll(resp.Body)
 
         switch resp.StatusCode </span>{
         case http.StatusUnauthorized:<span class="cov8" title="1">
