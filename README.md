@@ -1,17 +1,17 @@
 # Go Practice Projects
 
-Welcome to the **Go Practice Projects** repository. This repo contains a collection of personal projects showcasing various basics, practices and http apps using Golang.
+Welcome to the **go-practice** repository. This repo contains a collection of personal projects showcasing various basics, practices and http apps using Golang.
 
 ## 📂 Repository Structure
 
 The repository follows a **one-folder-per-project** structure, making it easy to navigate and explore each project individually. Each project folder typically includes:
 
-- **Source Code**: Core project files and implementation (.go files).
+- **source code**: Core project files and implementation (.go files).
 - **go.mod/go.sum**: Go module files for dependency management.
-- **Documentation**: README or notes with a description of the project and usage instructions.
-- **Examples**: Sample usage or test files (if applicable).
+- **documentation (maybe)**: README or notes with a description of the project and usage instructions.
+- **examples**: Sample usage or test files (if applicable).
 
-## Running Projects
+## ⚙️ Running Projects
 
 Each project may have a different setup. Please refer to the specific README.md file in each project folder for detailed instructions.
 
@@ -19,13 +19,13 @@ Each project may have a different setup. Please refer to the specific README.md 
 
 If the project is a single Go file, you can run it directly using:
 
-```
+```shell
 go run [filename].go
 ```
 
 or run main.go with:
 
-```
+```shell
 go run .
 ```
 
@@ -33,4 +33,16 @@ go run .
 
 Below is a brief overview of the projects included in this repository:
 
-- **Basics**: Core concepts demonstrating Go fundamentals (file I/O, structs, pointers, concurrency, etc.).
+- **learning** folder:
+- - **_basics_**: core concepts demonstrating Go fundamentals (io, structs, pointers, concurrency, etc.)
+- - **_stepik-course_**: practices and homeworks from course of go web development from VK Team
+
+<br>
+
+- **backend-dev** folder:
+- - **_incoming..._**
+
+<br>
+
+- **extra** folder:
+- - **_vs-typescript_**: some cases of comparing Golang with TypeScript language (sorry, I am front-end dev who migrated to full-stack community)

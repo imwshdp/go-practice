@@ -41,7 +41,7 @@ function main() {
 	customTypesBehavior();
 
 	// 2. Arrays comparison
-	// In JS arrays are compared by reference to a memory location
+	// In JavaScript arrays are compared by reference to a memory location
 	arrayComparison();
 
 	// 3. Object arrays comparison
