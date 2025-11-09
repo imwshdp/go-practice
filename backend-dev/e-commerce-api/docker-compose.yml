@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:16.3
+    container_name: ecommerce_dev
+    environment:
+      POSTGRES_DB: ecommerce_dev
+      POSTGRES_USER: euser
+      POSTGRES_PASSWORD: epassword
+    ports:
+      - '5433:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/ecommerce/data
+      - ./scripts:/docker-entrypoint-initdb.d
+
+volumes:
+  postgres_data:
