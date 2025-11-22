@@ -18,8 +18,6 @@ func main() {
 
 	cfg := config.Load()
 
-	log.Println("cfg = ", cfg)
-
 	db, err := sql.Open("postgres", cfg.DbConfig.Addr)
 	if err != nil {
 		log.Fatal(fmt.Errorf("Postgres connection establish error: %s", err))
