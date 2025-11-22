@@ -1,10 +1,10 @@
 package main
 
 import (
-	"e-commerce/cmd/api"
-	"e-commerce/internal/config"
-	"e-commerce/internal/storage/postgres"
 	"log"
+	"rest/cmd/api"
+	"rest/internal/config"
+	"rest/internal/storage/postgres"
 )
 
 func main() {

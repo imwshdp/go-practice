@@ -1,7 +1,7 @@
 package config
 
 import (
-	"e-commerce/internal/utils/env"
+	"rest/internal/utils/env"
 	"time"
 )
 

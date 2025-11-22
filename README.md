@@ -41,7 +41,7 @@ Below is a brief overview of the projects included in this repository:
 
 - **backend-dev** folder:
 - - **_http-based_**: simple demo setup of go api with postgresql docker container (mostly for training)
-- - **_e-commerce-api_**: go api based on clean architecture
+- - **_rest_**: first simple go rest api writing practice
 
 <br>
 

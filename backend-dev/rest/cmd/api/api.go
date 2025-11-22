@@ -2,9 +2,10 @@ package api
 
 import (
 	"database/sql"
-	"e-commerce/internal/controllers"
 	"log"
 	"net/http"
+	uHttp "rest/internal/handlers/user"
+	uStorage "rest/internal/storage/postgres/user"
 
 	"github.com/gorilla/mux"
 )
@@ -21,14 +22,18 @@ func New(addr string, db *sql.DB) *application {
 	}
 }
 
-func (api *application) Run() error {
+func (app *application) Run() error {
 	router := mux.NewRouter()
 
 	subRouter := router.PathPrefix("api/v1").Subrouter()
 
-	userHandler := controllers.NewUserHandler()
+	// repos
+	userRepo := uStorage.NewUserRepository(app.db)
+
+	// handlers
+	userHandler := uHttp.NewUserHandler(userRepo)
 	userHandler.RegisterRoutes(subRouter)
 
-	log.Println("Server started on port", api.addr)
-	return http.ListenAndServe(api.addr, router)
+	log.Println("Server started on port", app.addr)
+	return http.ListenAndServe(app.addr, router)
 }
