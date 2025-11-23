@@ -25,7 +25,7 @@ func New(addr string, db *sql.DB) *application {
 func (app *application) Run() error {
 	router := mux.NewRouter()
 
-	subRouter := router.PathPrefix("api/v1").Subrouter()
+	subRouter := router.PathPrefix("/api/v1").Subrouter()
 
 	// repos
 	userRepo := uStorage.NewUserRepository(app.db)

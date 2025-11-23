@@ -3,6 +3,11 @@ ifneq (,$(wildcard .env))
     export $(shell sed 's/=.*//' .env)
 endif
 
+.PHONY: dev
+dev:
+	@air
+
+.PHONY: test
 test:
 	@go test -v ./...
 
