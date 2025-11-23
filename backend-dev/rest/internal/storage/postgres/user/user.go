@@ -20,16 +20,17 @@ func NewUserRepository(db *sql.DB) UserRepository {
 	return &userRepository{db: db}
 }
 
-func scanRowIntoUser(row *sql.Rows) (*dto.User, error) {
+func scanRowsIntoUser(rows *sql.Rows) (*dto.User, error) {
 	user := new(dto.User)
 
-	err := row.Scan(
+	err := rows.Scan(
 		&user.ID,
 		&user.FirstName,
 		&user.LastName,
 		&user.Email,
 		&user.Password,
 		&user.CreatedAt,
+		&user.UpdatedAt,
 	)
 
 	if err != nil {
@@ -48,7 +49,7 @@ func (repo *userRepository) GetById(id int) (*dto.User, error) {
 	user := new(dto.User)
 
 	for rows.Next() {
-		user, err = scanRowIntoUser(rows)
+		user, err = scanRowsIntoUser(rows)
 		if err != nil {
 			return nil, err
 		}
@@ -70,7 +71,7 @@ func (repo *userRepository) GetByEmail(email string) (*dto.User, error) {
 	user := new(dto.User)
 
 	for rows.Next() {
-		user, err = scanRowIntoUser(rows)
+		user, err = scanRowsIntoUser(rows)
 		if err != nil {
 			return nil, err
 		}
