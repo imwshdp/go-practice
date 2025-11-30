@@ -1,18 +1,29 @@
 package products
 
-import "context"
+import (
+	"context"
+	repo "e-commerce-api/internal/adapters/postgresql/sqlc"
+)
 
 type Service interface {
-	ListProducts(ctx context.Context) ([]string, error)
+	ListProducts(ctx context.Context) ([]repo.Product, error)
 }
 
 type service struct {
+	repo repo.Querier
 }
 
-func NewService() Service {
-	return &service{}
+func NewService(r repo.Querier) Service {
+	return &service{
+		repo: r,
+	}
 }
 
-func (s *service) ListProducts(ctx context.Context) ([]string, error) {
-	return []string{"Product 1", "Product 2", "Product 3"}, nil
+func (s *service) ListProducts(ctx context.Context) ([]repo.Product, error) {
+	products, err := s.repo.ListProducts(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return products, nil
 }

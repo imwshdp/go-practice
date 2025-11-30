@@ -1,6 +1,8 @@
 package main
 
 import (
+	repo "e-commerce-api/internal/adapters/postgresql/sqlc"
+	"e-commerce-api/internal/orders"
 	"e-commerce-api/internal/products"
 	"log"
 	"net/http"
@@ -8,10 +10,12 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/jackc/pgx/v5"
 )
 
 type application struct {
 	config config
+	db     *pgx.Conn
 }
 
 type config struct {
@@ -38,10 +42,17 @@ func (app *application) mount() http.Handler {
 	})
 
 	// di
-	productService := products.NewService()
+	repository := repo.New(app.db)
+
+	productService := products.NewService(repository)
 	productHandler := products.NewHandler(productService)
 
 	r.Get("/products", productHandler.ListProducts)
+
+	orderService := orders.NewService(repository, app.db)
+	orderHandler := orders.NewHandler(orderService)
+
+	r.Post("/orders", orderHandler.PlaceOrder)
 
 	return r
 }

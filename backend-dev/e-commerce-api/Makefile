@@ -16,3 +16,11 @@ postgres-up:
 .PHONY: postgres-down
 postgres-down:
 	docker-compose -f $(LOCAL_POSTGRES_DOCKER_PATH)  down -v
+
+.PHONY: migrate-up
+migrate-up:
+	goose up
+
+.PHONY: sqlc-gen
+sqlc-gen:
+	sqlc generate
