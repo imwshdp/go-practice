@@ -3,5 +3,8 @@
 *.exe
 *.log
 
+*bin
+*tmp
+
 .env
 .env.production
