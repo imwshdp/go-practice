@@ -1,4 +1,4 @@
-package orders
+package models
 
 type Order struct {
 	OrderID    int

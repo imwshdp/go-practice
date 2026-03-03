@@ -2,7 +2,6 @@ BIN_DIR := $(CURDIR)/bin
 GO := go
 
 # Versions
-AIR_VERSION := v1.64.5
 GOLANGCI_LINT_VERSION := v2.10.1
 PROTOC_VERSION := 34.0
 PROTOC_GEN_GO_VERSION := latest
@@ -28,13 +27,12 @@ else
 endif
 
 # Binaries
-AIR := $(BIN_DIR)/air$(EXT)
 GOLANGCI_LINT := $(BIN_DIR)/golangci-lint$(EXT)
 PROTOC := $(BIN_DIR)/protoc$(EXT)
 PROTOC_GEN_GO := $(BIN_DIR)/protoc-gen-go$(EXT)
 PROTOC_GEN_GO_GRPC := $(BIN_DIR)/protoc-gen-go-grpc$(EXT)
 
-TOOLS := $(AIR) $(GOLANGCI_LINT) $(PROTOC) $(PROTOC_GEN_GO) $(PROTOC_GEN_GO_GRPC)
+TOOLS := $(GOLANGCI_LINT) $(PROTOC) $(PROTOC_GEN_GO) $(PROTOC_GEN_GO_GRPC)
 
 # Commands
 .PHONY: all
@@ -42,9 +40,6 @@ all: build
 
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
-
-$(AIR): | $(BIN_DIR)
-	GOBIN=$(BIN_DIR) $(GO) install github.com/air-verse/air@$(AIR_VERSION)
 
 $(GOLANGCI_LINT): | $(BIN_DIR)
 	GOBIN=$(BIN_DIR) $(GO) install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@$(GOLANGCI_LINT_VERSION)
@@ -74,10 +69,6 @@ check-tools:
 		fi \
 	done
 
-.PHONY: dev
-dev: check-tools
-	$(AIR)
-
 .PHONY: lint
 lint: check-tools
 	$(GOLANGCI_LINT) run ./...
@@ -98,3 +89,11 @@ proto-gen: check-tools
 		--go-grpc_opt=paths=source_relative \
 		--plugin=protoc-gen-go="$(PROTOC_GEN_GO)" \
 		--plugin=protoc-gen-go-grpc="$(PROTOC_GEN_GO_GRPC)"
+
+.PHONY: run-orders
+run-orders:
+	@$(GO) run apps/orders/cmd/api/main.go
+
+.PHONY: run-kitchen
+run-kitchen:
+	@$(GO) run apps/orders/cmd/api/main.go

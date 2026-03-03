@@ -1,0 +1,11 @@
+package storage
+
+import (
+	"context"
+	"grpc-basics/apps/orders/internal/models"
+)
+
+type OrderStorage interface {
+	Get(ctx context.Context, orderID int) (*models.Order, error)
+	Set(ctx context.Context, order models.Order)
+}

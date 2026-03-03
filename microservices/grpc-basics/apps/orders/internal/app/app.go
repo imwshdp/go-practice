@@ -1,9 +1,14 @@
 package app
 
 import (
+	"grpc-basics/apps/orders/internal/storage"
 	"log/slog"
 	"os"
 )
+
+func setupStorage() storage.OrderStorage {
+	return storage.NewOrderStorage()
+}
 
 func Setup(
 	addr string,
@@ -13,11 +18,12 @@ func Setup(
 			Level: slog.LevelInfo,
 		}),
 	)
-
 	slog.SetDefault(logger)
 
-	gRPCServer := NewGRPCServer(addr)
+	storage := setupStorage()
+	gRPCServer := NewGrpcServer(addr)
+
 	logger.Info("gRPC server is started on", "addr", addr)
 
-	gRPCServer.Run()
+	gRPCServer.Run(storage)
 }
