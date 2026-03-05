@@ -33,7 +33,6 @@ func (h *orderHandler) CreateOrder(w http.ResponseWriter, r *http.Request) {
 	}
 
 	order := models.CreateOrder(
-		42,
 		req.CustomerID,
 		req.ProductID,
 		req.Quantity,

@@ -8,6 +8,7 @@ import (
 
 type OrderService interface {
 	CreateOrder(ctx context.Context, payload *models.Order) error
+	GetOrders(ctx context.Context) []*models.Order
 }
 
 type Services struct {

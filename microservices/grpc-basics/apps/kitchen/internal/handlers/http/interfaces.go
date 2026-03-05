@@ -12,6 +12,8 @@ type BaseHandler interface {
 type OrderHandler interface {
 	BaseHandler
 	CreateOrder(w http.ResponseWriter, r *http.Request)
+	GetOrders(w http.ResponseWriter, r *http.Request)
+	GetOrdersReport(w http.ResponseWriter, r *http.Request)
 }
 
 type Handlers struct {

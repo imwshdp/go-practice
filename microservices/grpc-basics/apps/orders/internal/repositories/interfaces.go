@@ -8,6 +8,7 @@ import (
 
 type OrderRepository interface {
 	CreateOrder(ctx context.Context, order *models.Order) error
+	GetOrders(ctx context.Context) []*models.Order
 }
 
 type Repositories struct {

@@ -30,8 +30,8 @@ func setupServices(
 }
 
 func Setup(
-	grpcAddr string,
 	httpAddr string,
+	grpcAddr string,
 ) {
 	logger := setupLogger()
 

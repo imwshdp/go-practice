@@ -24,3 +24,7 @@ func (s *orderService) CreateOrder(ctx context.Context, payload *models.Order) e
 
 	return nil
 }
+
+func (s *orderService) GetOrders(ctx context.Context) []*models.Order {
+	return s.repository.GetOrders(ctx)
+}
