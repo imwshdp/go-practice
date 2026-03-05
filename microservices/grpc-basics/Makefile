@@ -96,4 +96,4 @@ run-orders:
 
 .PHONY: run-kitchen
 run-kitchen:
-	@$(GO) run apps/orders/cmd/api/main.go
+	@$(GO) run apps/kitchen/cmd/api/main.go

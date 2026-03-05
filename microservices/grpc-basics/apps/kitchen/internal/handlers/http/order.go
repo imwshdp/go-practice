@@ -1,20 +1,23 @@
 package http
 
 import (
+	"context"
+	"grpc-basics/apps/common/genproto/orders"
 	"grpc-basics/apps/common/http/dto"
 	"grpc-basics/apps/common/http/utils"
-	"grpc-basics/apps/orders/internal/services"
-	"grpc-basics/apps/orders/internal/services/models"
 	"net/http"
+	"time"
 )
 
 type orderHandler struct {
-	ordersService services.OrderService
+	grpcClient orders.OrderServiceClient
 }
 
-func NewOrderHandler(orderService services.OrderService) *orderHandler {
+func NewOrderHandler(
+	grpcClient orders.OrderServiceClient,
+) *orderHandler {
 	return &orderHandler{
-		ordersService: orderService,
+		grpcClient,
 	}
 }
 
@@ -23,7 +26,8 @@ func (h *orderHandler) RegisterRouter(router *http.ServeMux) {
 }
 
 func (h *orderHandler) CreateOrder(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
+	ctx, cancel := context.WithTimeout(r.Context(), 2*time.Second)
+	defer cancel()
 
 	var req dto.NewOrder
 	err := utils.ParseJSON(r, &req)
@@ -32,14 +36,11 @@ func (h *orderHandler) CreateOrder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	order := models.CreateOrder(
-		42,
-		req.CustomerID,
-		req.ProductID,
-		req.Quantity,
-	)
-
-	err = h.ordersService.CreateOrder(ctx, order)
+	_, err = h.grpcClient.CreateOrder(ctx, &orders.CreateOrderRequest{
+		CustomerID: int32(req.CustomerID),
+		ProductID:  int32(req.ProductID),
+		Quantity:   int32(req.Quantity),
+	})
 	if err != nil {
 		utils.WriteError(w, http.StatusInternalServerError, err)
 		return

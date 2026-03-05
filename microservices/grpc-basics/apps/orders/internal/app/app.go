@@ -8,6 +8,16 @@ import (
 	"os"
 )
 
+func setupLogger() *slog.Logger {
+	logger := slog.New(
+		slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+			Level: slog.LevelInfo,
+		}),
+	)
+	slog.SetDefault(logger)
+	return logger
+}
+
 func setupStorage() storage.OrderStorage {
 	return storage.NewOrderStorage()
 }
@@ -23,12 +33,7 @@ func Setup(
 	grpcAddr string,
 	httpAddr string,
 ) {
-	logger := slog.New(
-		slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
-			Level: slog.LevelInfo,
-		}),
-	)
-	slog.SetDefault(logger)
+	logger := setupLogger()
 
 	storage := setupStorage()
 	services := setupServices(storage)
@@ -39,6 +44,5 @@ func Setup(
 
 	gRPCServer := NewGrpcServer(grpcAddr)
 	logger.Info("gRPC server is started on", "addr", grpcAddr)
-
 	gRPCServer.Run(services)
 }
