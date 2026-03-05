@@ -3,7 +3,7 @@ package storage
 import (
 	"context"
 	"errors"
-	"grpc-basics/apps/orders/internal/models"
+	"grpc-basics/apps/orders/internal/services/models"
 )
 
 var ErrNotFound = errors.New("not found")

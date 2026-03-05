@@ -2,7 +2,7 @@ package repositories
 
 import (
 	"context"
-	"grpc-basics/apps/orders/internal/models"
+	"grpc-basics/apps/orders/internal/services/models"
 	"grpc-basics/apps/orders/internal/storage"
 )
 

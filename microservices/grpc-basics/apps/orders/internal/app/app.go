@@ -1,6 +1,8 @@
 package app
 
 import (
+	"grpc-basics/apps/orders/internal/repositories"
+	"grpc-basics/apps/orders/internal/services"
 	"grpc-basics/apps/orders/internal/storage"
 	"log/slog"
 	"os"
@@ -10,8 +12,16 @@ func setupStorage() storage.OrderStorage {
 	return storage.NewOrderStorage()
 }
 
+func setupServices(
+	db storage.OrderStorage,
+) *services.Services {
+	repos := repositories.NewRepositories(db)
+	return services.NewServices(repos)
+}
+
 func Setup(
-	addr string,
+	grpcAddr string,
+	httpAddr string,
 ) {
 	logger := slog.New(
 		slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
@@ -21,9 +31,14 @@ func Setup(
 	slog.SetDefault(logger)
 
 	storage := setupStorage()
-	gRPCServer := NewGrpcServer(addr)
+	services := setupServices(storage)
 
-	logger.Info("gRPC server is started on", "addr", addr)
+	httpServer := NewHttpServer(httpAddr)
+	logger.Info("http server is started on", "addr", httpAddr)
+	go httpServer.Run(services)
 
-	gRPCServer.Run(storage)
+	gRPCServer := NewGrpcServer(grpcAddr)
+	logger.Info("gRPC server is started on", "addr", grpcAddr)
+
+	gRPCServer.Run(services)
 }

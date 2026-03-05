@@ -2,7 +2,7 @@ package storage
 
 import (
 	"context"
-	"grpc-basics/apps/orders/internal/models"
+	"grpc-basics/apps/orders/internal/services/models"
 )
 
 type OrderStorage interface {

@@ -8,9 +8,7 @@ import (
 
 	"grpc-basics/apps/common/genproto/orders"
 	grpcInterface "grpc-basics/apps/orders/internal/handlers/grpc"
-	"grpc-basics/apps/orders/internal/repositories"
 	"grpc-basics/apps/orders/internal/services"
-	"grpc-basics/apps/orders/internal/storage"
 )
 
 type gRPCServer struct {
@@ -23,26 +21,22 @@ func NewGrpcServer(addr string) *gRPCServer {
 
 func (s *gRPCServer) setup(
 	grpcServer *grpc.Server,
-	db storage.OrderStorage,
+	services *services.Services,
 ) {
-	repos := repositories.NewRepositories(db)
-	services := services.NewServices(repos)
 	handlers := grpcInterface.NewHandlers(services)
-
 	orders.RegisterOrderServiceServer(grpcServer, handlers.Order)
 }
 
 func (s *gRPCServer) Run(
-	db storage.OrderStorage,
+	services *services.Services,
 ) error {
-
 	listener, err := net.Listen("tcp", s.addr)
 	if err != nil {
 		return fmt.Errorf("failed to listen: %v", err)
 	}
 
 	grpcServer := grpc.NewServer()
-	s.setup(grpcServer, db)
+	s.setup(grpcServer, services)
 
 	return grpcServer.Serve(listener)
 }

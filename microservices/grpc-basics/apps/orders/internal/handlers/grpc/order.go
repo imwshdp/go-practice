@@ -3,30 +3,25 @@ package grpc
 import (
 	"context"
 	"grpc-basics/apps/common/genproto/orders"
-	"grpc-basics/apps/orders/internal/models"
 	"grpc-basics/apps/orders/internal/services"
+	"grpc-basics/apps/orders/internal/services/models"
 )
 
-type ordersHandler struct {
+type orderHandler struct {
 	orders.UnimplementedOrderServiceServer
 	service services.OrderService
 }
 
-func NewOrdersHandler(
+func NewOrderHandler(
 	orderService services.OrderService,
-) *ordersHandler {
-	return &ordersHandler{
+) *orderHandler {
+	return &orderHandler{
 		service: orderService,
 	}
 }
 
-func (h *ordersHandler) CreateOrder(ctx context.Context, req *orders.CreateOrderRequest) (*orders.CreateOrderResponse, error) {
-	order := &models.Order{
-		OrderID:    1,
-		CustomerID: 2,
-		ProductID:  3,
-		Quantity:   4,
-	}
+func (h *orderHandler) CreateOrder(ctx context.Context, req *orders.CreateOrderRequest) (*orders.CreateOrderResponse, error) {
+	order := models.CreateOrder(1, 2, 3, 4)
 
 	err := h.service.CreateOrder(ctx, order)
 	if err != nil {

@@ -1,12 +1,17 @@
-package grpc
+package http
 
 import (
-	"grpc-basics/apps/common/genproto/orders"
 	"grpc-basics/apps/orders/internal/services"
+	"net/http"
 )
 
+type BaseHandler interface {
+	RegisterRouter(router *http.ServeMux)
+}
+
 type OrderHandler interface {
-	orders.OrderServiceServer
+	BaseHandler
+	CreateOrder(w http.ResponseWriter, r *http.Request)
 }
 
 type Handlers struct {
