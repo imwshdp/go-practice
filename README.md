@@ -46,5 +46,10 @@ Below is a brief overview of the projects included in this repository:
 
 <br>
 
+- **microservices** folder:
+- - **grpc-basics**: minimalistic example of using protobuf with gRPC between microservices located in monorepo
+
+<br>
+
 - **extra** folder:
 - - **_vs-typescript_**: some cases of comparing Golang with TypeScript language (sorry, I am front-end dev who migrated to full-stack community)
