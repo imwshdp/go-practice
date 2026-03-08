@@ -50,6 +50,11 @@ Below is a brief overview of the projects included in this repository:
 - - **grpc-basics**: minimalistic example of using protobuf with gRPC between microservices located in monorepo
 
 <br>
+    
+- **concurrency** folder:
+- - **[go-concurrency-exercises](https://github.com/loong/go-concurrency-exercises)** repository's tasks solutions
+
+<br>
 
 - **extra** folder:
 - - **_vs-typescript_**: some cases of comparing Golang with TypeScript language (sorry, I am front-end dev who migrated to full-stack community)
