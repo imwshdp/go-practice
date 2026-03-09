@@ -6,22 +6,6 @@ import (
 	"time"
 )
 
-// === Mocks ===
-type mockResult struct {
-	body string
-	urls []string
-}
-
-type MockFetcher map[string]*mockResult
-
-func (f MockFetcher) Fetch(url string) (string, []string, error) {
-	return "", nil, nil
-}
-
-var fetcher = MockFetcher{}
-
-// =============
-
 var ticker = time.NewTicker(1 * time.Second)
 
 func Crawl(url string, depth int, wg *sync.WaitGroup) {

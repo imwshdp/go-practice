@@ -6,23 +6,6 @@ import (
 	"testing"
 )
 
-// === Mocks ===
-type MockDB struct {
-	Calls int32
-}
-
-func (db *MockDB) Get(key string) (string, error) {
-	return "", nil
-}
-
-func GetMockDB() *MockDB {
-	return nil
-}
-
-func RunMockServer(cache *KeyStoreCache, t *testing.T) {}
-
-// =============
-
 const CacheSize = 100
 
 type KeyStoreCacheLoader interface {
@@ -93,4 +76,8 @@ func run(t *testing.T) (*KeyStoreCache, *MockDB) {
 	RunMockServer(cache, t)
 
 	return cache, loader.DB
+}
+
+func main() {
+	run(nil)
 }
