@@ -1,22 +1,25 @@
 package main
 
 import (
+	"fmt"
 	"tasks-practice/internal/intersection"
 	"tasks-practice/internal/mergeChan"
 )
 
 func main() {
-	//  На вход подаются два неупорядоченных слайса любой длины. Надо написать функцию, которая возвращает их пересечение
+	// На вход подаются два неупорядоченных слайса любой длины. Надо написать функцию, которая возвращает их пересечение
 	// package intersection
-	intersection.SolutionWithSort(
+	sortRes := intersection.SolutionWithSort(
 		[]int{1, 2, 3},
-		[]int{4, 5, 6},
+		[]int{3, 4, 5},
 	)
+	fmt.Println(sortRes)
 
-	intersection.SolutionWithSet(
+	setRes := intersection.SolutionWithSet(
 		[]int{1, 2, 3},
-		[]int{4, 5, 6},
+		[]int{3, 4, 5},
 	)
+	fmt.Println(setRes)
 
 	// Слить N каналов в один
 	// package mergeChan
@@ -42,4 +45,5 @@ func main() {
 	for val := range result {
 		values = append(values, val)
 	}
+	fmt.Println(values)
 }

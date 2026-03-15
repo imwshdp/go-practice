@@ -9,7 +9,7 @@ import (
 )
 
 func TestMerge_NoChannels(t *testing.T) {
-	result := Merge()
+	result := Merge[int]()
 
 	_, ok := <-result
 	if ok {
@@ -328,5 +328,71 @@ func TestMerge_ChannelClosing(t *testing.T) {
 	_, ok := <-result
 	if ok {
 		t.Errorf("expected result channel to be closed")
+	}
+}
+
+func TestMerge_String(t *testing.T) {
+	ch1 := make(chan string, 2)
+	ch2 := make(chan string, 2)
+
+	ch1 <- "hello"
+	ch1 <- "world"
+	close(ch1)
+
+	ch2 <- "foo"
+	ch2 <- "bar"
+	close(ch2)
+
+	result := Merge(ch1, ch2)
+
+	var values []string
+	for val := range result {
+		values = append(values, val)
+	}
+
+	expected := []string{"bar", "foo", "hello", "world"}
+
+	sort.Strings(values)
+	sort.Strings(expected)
+
+	if len(values) != len(expected) {
+		t.Errorf("expected %d values, got %d", len(expected), len(values))
+	}
+
+	if !slices.Equal(values, expected) {
+		t.Errorf("expected %v, got %v", expected, values)
+	}
+}
+
+func TestMerge_Float64(t *testing.T) {
+	ch1 := make(chan float64, 2)
+	ch2 := make(chan float64, 2)
+
+	ch1 <- 1.5
+	ch1 <- 2.5
+	close(ch1)
+
+	ch2 <- -0.5
+	ch2 <- 0.0
+	close(ch2)
+
+	result := Merge(ch1, ch2)
+
+	var values []float64
+	for val := range result {
+		values = append(values, val)
+	}
+
+	expected := []float64{-0.5, 0.0, 1.5, 2.5}
+
+	sort.Float64s(values)
+	sort.Float64s(expected)
+
+	if len(values) != len(expected) {
+		t.Errorf("expected %d values, got %d", len(expected), len(values))
+	}
+
+	if !slices.Equal(values, expected) {
+		t.Errorf("expected %v, got %v", expected, values)
 	}
 }
