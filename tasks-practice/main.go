@@ -6,29 +6,33 @@ import (
 	"tasks-practice/internal/intersection"
 	"tasks-practice/internal/mergeChan"
 	"tasks-practice/internal/randGen"
+	"tasks-practice/internal/workerPool"
+	"time"
 )
 
 func main() {
-	// Пересечение слайсов
+	// 1. Пересечение слайсов
 	//
 	// На вход подаются два неупорядоченных слайса любой длины. Надо написать функцию, которая возвращает их пересечение
-	//
-	// package intersection
-	sortRes := intersection.SolutionWithSort(
-		[]int{1, 2, 3},
-		[]int{3, 4, 5},
-	)
-	fmt.Println(sortRes)
+
+	first, second := []int{1, 2, 3}, []int{3, 4, 5}
 
 	setRes := intersection.SolutionWithSet(
-		[]int{1, 2, 3},
-		[]int{3, 4, 5},
+		first,
+		second,
 	)
-	fmt.Println(setRes)
+	fmt.Printf("1.1. intersection (using set) of %v and %v: %v\n", first,
+		second, setRes)
 
-	// Слить N каналов в один
-	//
-	// package mergeChan
+	sortRes := intersection.SolutionWithSort(
+		first,
+		second,
+	)
+	fmt.Printf("1.2. intersection (using sort) of %v and %v: %v\n", first,
+		second, sortRes)
+
+	// 2. Слить N каналов в один
+
 	ch1 := make(chan int, 2)
 	ch2 := make(chan int, 2)
 	ch3 := make(chan int, 2)
@@ -51,31 +55,31 @@ func main() {
 	for val := range result {
 		values = append(values, val)
 	}
-	fmt.Println(values)
+	fmt.Printf("2. chan merge result: %v\n", values)
 
-	// Написать генератор случайных чисел
-	//
-	// package randGen
-	gen := randGen.New(5)
+	// 3. Написать генератор случайных чисел
 
-	genResult := make([]int, 0, 5)
+	genSize := 5
+	gen := randGen.New(genSize)
+
+	genResult := make([]int, 0, genSize)
 	for val := range gen {
 		genResult = append(genResult, val)
 	}
-	fmt.Println(genResult)
+	fmt.Printf("3. rand generator with chan: %v\n", genResult)
 
-	// Сделать конвейер чисел
+	// 4. Сделать конвейер чисел
 	//
 	// Даны два канала.
 	// В первый пишутся числа.
 	// Нужно, чтобы числа читались из первого по мере поступления,
 	// что-то с ними происходило (допустим, возводились в квадрат) и результат записывался во второй канал.
-	//
-	// package conveyer
+
+	conveyerSize := 5
 	in := make(chan int)
 
 	go func() {
-		for inx := range 5 {
+		for inx := range conveyerSize {
 			in <- inx
 		}
 		close(in)
@@ -85,7 +89,41 @@ func main() {
 		return val * val
 	})
 
+	conveyerResult := make([]int, 0, conveyerSize)
 	for val := range out {
-		fmt.Print(val)
+		conveyerResult = append(conveyerResult, val)
+	}
+	fmt.Printf("4. conveyer result: %v\n", conveyerResult)
+
+	// 5. Написать WorkerPool с заданной функцией
+	//
+	// Нам нужно разбить процессы на несколько горутин.
+	// При этом не создавать новую горутину каждый раз, а просто переиспользовать уже имеющиеся.
+	//
+	// package workerPool
+	const numJobs = 5
+
+	jobs := make(chan *workerPool.Job, numJobs)
+	multiplier := func(x int) int {
+		return x * 10
+	}
+
+	poolResults := workerPool.New(jobs, numJobs)
+
+	go func() {
+		defer close(jobs)
+
+		for inx := range numJobs {
+			jobs <- &workerPool.Job{
+				Value: inx + 1,
+				Func:  multiplier,
+			}
+			time.Sleep(time.Second)
+		}
+	}()
+
+	fmt.Println("5. worker pool result:")
+	for val := range poolResults {
+		fmt.Println(val)
 	}
 }
