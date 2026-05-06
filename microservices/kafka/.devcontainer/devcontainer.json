@@ -1,0 +1,16 @@
+{
+  "name": "kafka-go",
+  "dockerComposeFile": [
+    "../docker-compose.yaml",
+    "docker-compose.dev.yml"
+  ],
+  "service": "app",
+  "runServices": [
+    "zookeeper",
+    "kafka",
+    "kafdropui",
+    "app"
+  ],
+  "workspaceFolder": "/workspace",
+  "postCreateCommand": "go mod download"
+}
