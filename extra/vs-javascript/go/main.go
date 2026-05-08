@@ -13,8 +13,8 @@ func customTypesBehavior() {
 }
 
 func arrayComparison() {
-	var array1 = [3]int{1, 2, 3}
-	var array2 = [3]int{1, 2, 3}
+	array1 := [3]int{1, 2, 3}
+	array2 := [3]int{1, 2, 3}
 
 	fmt.Printf("2) is array1 (%v) equal to array2 (%v)? Answer is: %v\n\n", array1, array2, array1 == array2)
 }
@@ -29,7 +29,7 @@ func structsArrayComparison() {
 		TestStruct{str: "2", num: 2},
 		TestStruct{str: "3", num: 3}
 
-	var array1 = [3]TestStruct{
+	array1 := [3]TestStruct{
 		struct1,
 		struct2,
 		struct3,
@@ -38,7 +38,7 @@ func structsArrayComparison() {
 	// Even if struct3 is changed, the result will still be false because arrays are compared by value
 	// struct3 = TestStruct{str: "4", num: 4}
 
-	var array2 = [3]TestStruct{
+	array2 := [3]TestStruct{
 		struct1,
 		struct2,
 		struct3,
@@ -55,7 +55,7 @@ func pointersArrayComparison() {
 		&TestStruct{str: "2", num: 2},
 		&TestStruct{str: "3", num: 3}
 
-	var array1 = [3]*TestStruct{
+	array1 := [3]*TestStruct{
 		struct1,
 		struct2,
 		struct3,
@@ -69,7 +69,7 @@ func pointersArrayComparison() {
 	// But assigning the reference to the same struct in array1 gives true
 	// array1[2] = struct3
 
-	var array2 = [3]*TestStruct{
+	array2 := [3]*TestStruct{
 		struct1,
 		struct2,
 		struct3,
@@ -112,7 +112,7 @@ func forRangeLoop() {
 
 	// Since Go 1.22, the value variable is recreating in each iteration
 	// That's why we can use it for pointer values
-	fmt.Println("\n4.4) When for-of value variable is recreating")
+	fmt.Println("\n4.4) When for-range value variable is recreating")
 	reduced := make(map[int]*TestStruct, len(myStructSlice))
 	for inx, structVal := range myStructSlice {
 		fmt.Printf("%v (address=%p)\n", structVal, &structVal)
