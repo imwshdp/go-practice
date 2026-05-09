@@ -6,9 +6,14 @@ type kafkaConfig struct {
 	Host          string
 }
 
+const (
+	basicTopic = "local_topic"
+	inboxTopic = "inbox_topic"
+)
+
 func NewKafkaConfig() *kafkaConfig {
 	return &kafkaConfig{
-		Topic:         "local_topic",
+		Topic:         inboxTopic,
 		ConsumerGroup: "local_cg",
 		Host:          "kafka:29092",
 	}

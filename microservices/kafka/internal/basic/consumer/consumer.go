@@ -18,14 +18,15 @@ type KafkaConsumer struct {
 	isReady  bool
 }
 
-func NewKafkaConsumer(topic, host, groupID string, msgCh chan<- string) (*KafkaConsumer, error) {
+func NewKafkaConsumer(ctx context.Context, topic, host, groupID string, msgCh chan<- string) (*KafkaConsumer, error) {
 	c, err := kafka.NewConsumer(&kafka.ConfigMap{
-		"bootstrap.servers": host,
-		"group.id":          groupID,
-		"auto.offset.reset": "earliest",
+		"bootstrap.servers":  host,
+		"group.id":           groupID,
+		"enable.auto.commit": true,
+		"auto.offset.reset":  "earliest",
 	})
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to create consumer: %w", err)
 	}
 
 	consumer := &KafkaConsumer{
@@ -35,22 +36,22 @@ func NewKafkaConsumer(topic, host, groupID string, msgCh chan<- string) (*KafkaC
 		msgCh:    msgCh,
 	}
 
-	if errInit := consumer.initializeKafkaTopic(host, topic); errInit != nil {
-		return nil, errInit
+	if errInit := consumer.initializeKafkaTopic(ctx, host, topic); errInit != nil {
+		return nil, fmt.Errorf("failed to initialize kafka topic: %w", errInit)
 	}
 
 	err = c.SubscribeTopics([]string{topic}, nil)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to subscribe: %w", err)
 	}
 
 	go consumer.checkReadyToAccept()
-	go consumer.startConsuming()
+	go consumer.startConsuming(ctx, 1*time.Second)
 
 	return consumer, nil
 }
 
-func (c *KafkaConsumer) initializeKafkaTopic(host, topicName string) error {
+func (c *KafkaConsumer) initializeKafkaTopic(ctx context.Context, host, topicName string) error {
 	adminClient, err := kafka.NewAdminClient(&kafka.ConfigMap{
 		"bootstrap.servers": host,
 	})
@@ -66,11 +67,10 @@ func (c *KafkaConsumer) initializeKafkaTopic(host, topicName string) error {
 		ReplicationFactor: 1,
 	}
 
-	// TODO: add ctx using from main package
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	initCtx, cancel := context.WithTimeout(ctx, 30*time.Second)
 	defer cancel()
 
-	results, err := adminClient.CreateTopics(ctx, []kafka.TopicSpecification{topicSpec})
+	results, err := adminClient.CreateTopics(initCtx, []kafka.TopicSpecification{topicSpec})
 	if err != nil {
 		return err
 	}
@@ -148,7 +148,6 @@ func (c *KafkaConsumer) checkReadyToAccept() {
 			slog.Warn("Consumer readycheck:", slog.Bool("status", isReady))
 		}
 
-		// TODO: change to ticker
 		time.Sleep(1 * time.Second)
 	}
 }
@@ -166,22 +165,27 @@ func (c *KafkaConsumer) readyCheck() (bool, error) {
 	return true, nil
 }
 
-func (c *KafkaConsumer) startConsuming() {
+func (c *KafkaConsumer) startConsuming(ctx context.Context, timeout time.Duration) {
 	defer c.consumer.Close()
 
 	for {
-		msg, err := c.consumer.ReadMessage(time.Second)
-		if err != nil {
-			var kafkaErr kafka.Error
+		select {
+		case <-ctx.Done():
+			return
+		default:
+			msg, err := c.consumer.ReadMessage(time.Second)
+			if err != nil {
+				var kafkaErr kafka.Error
 
-			if errors.As(err, &kafkaErr) && kafkaErr.IsTimeout() {
+				if errors.As(err, &kafkaErr) && kafkaErr.IsTimeout() {
+					continue
+				}
+
+				slog.Error("Consumer read error:", slog.String("error", err.Error()))
 				continue
 			}
 
-			slog.Error("Consumer read error:", slog.String("error", err.Error()))
-			continue
+			c.msgCh <- string(msg.Value)
 		}
-
-		c.msgCh <- string(msg.Value)
 	}
 }

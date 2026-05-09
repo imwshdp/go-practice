@@ -12,6 +12,7 @@ services:
       KAFKA_BROKER: "kafka:29092"
       ZOOKEEPER: "zookeeper:2181"
       KAFDROPUI: "kafdropui:9090"
+      POSTGRES: "postgres:5432"
     ports:
       - "8081:8081"
     depends_on:

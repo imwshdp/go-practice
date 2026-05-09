@@ -1,0 +1,13 @@
+CREATE SCHEMA app;
+
+---
+
+CREATE SCHEMA IF NOT EXISTS app;
+
+---
+
+CREATE TABLE IF NOT EXISTS app.events (
+    event_id VARCHAR(255) NOT NULL PRIMARY KEY,
+    event_name VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
