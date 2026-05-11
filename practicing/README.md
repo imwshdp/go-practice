@@ -5,3 +5,5 @@ This folder contains different solutions of Go concurrency tasks. Each directory
 ## Folders Description
 
 - **go-concurrency-exercises** contains solutions for [go-concurrency-exercises](https://github.com/loong/go-concurrency-exercises) repository tasks (final code is located inside *solutions* package in each task folder).
+- **interview** no need to explain. god bless you...
+- **simple** your first boss

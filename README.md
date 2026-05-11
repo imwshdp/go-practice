@@ -48,11 +48,14 @@ Below is a brief overview of the projects included in this repository:
 
 - **microservices** folder:
 - - **_grpc-basics_**: minimalistic example of using protobuf with gRPC between microservices located in monorepo
+- - **_kafka_**: kafka confluent client setup with different patterns for microservices architecture
 
 <br>
     
-- **concurrency** folder:
-- - **_[go-concurrency-exercises](https://github.com/loong/go-concurrency-exercises)_** repository's tasks solutions
+- **practicing** folder:
+- - **_[go-concurrency-exercises](https://github.com/loong/go-concurrency-exercises)_**: repository's tasks solutions
+- - **_interview_**: practicing and trying my best in preparation with different tasks to solve
+- - **_simple_**: something not overwhelmed to check out brain power and skills
 
 <br>
 
